@@ -1,22 +1,49 @@
-import React, { Component } from 'react';
-import { View,Text, Button } from 'react-native';
-import firebase from 'firebase';
-import TitledInput from './TitledInput';
-import LoadingSpinner from './LoadingSpinner';
-import { StackNavigator } from 'react-navigation';
+import React, {Component} from 'react';
+import { StyleSheet, Text, View,AppRegistry, TextInput,Button, Image, TouchableOpacity,Alert } from 'react-native';
+import RootNavigator from './router';
+import  firebase from 'firebase';
+import LoginForm from './components/LoginForm.js';
+import TitledInput from './components/TitledInput';
+import LoadingSpinner from './components/LoadingSpinner';
+import { StackNavigator,NavigationActions } from 'react-navigation';
 
+  //including components
+  const StatusBar = require('./components/StatusBar');
+  const ActionButton = require('./components/ActionButton');
+  const styles =  require('./styles.js')
+  
+class AuthScreen extends Component {
+  
+    constructor(props) {
+        super(props);
+        this.state = { email: 'TestBoy@test.com', password: 'TestBoy123!',error: '', loading:false };
+        this.buttonText = {text:''};       
+      }
 
+    componentWillMount(){
+      firebase.initializeApp({ // Initialize Firebase
+          apiKey: "AIzaSyBMDOJ2efVwI427-VGhG0VVe5-zoP2e_xo",
+          authDomain: "workout-buddy-2f3d1.firebaseapp.com",
+          databaseURL: "https://workout-buddy-2f3d1.firebaseio.com",
+          projectId: "workout-buddy-2f3d1",
+          storageBucket: "workout-buddy-2f3d1.appspot.com",
+          messagingSenderId: "923628828402"
+      });
+    }
 
-export class LoginForm extends Component {
-    state = { email: 'TestBoy@test.com', password: 'TestBoy123!',error: '', loading:false };
     onLoginPress() {
         this.setState({ error: '', loading: true });
 
         const { email, password } = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => { 
-                this.setState({ error: 'You have successfully logged in.', loading: false });
-
+                this.setState({ error: '', loading: false });
+                this.props.navigation.dispatch(
+                    NavigationActions.reset({
+                        index:0,
+                        actions: [NavigationActions.navigate({ routeName:"Home"})]
+                    })
+                )
             })
             .catch(() => {
                 //Login was not successful, let's create a new account
@@ -57,7 +84,7 @@ export class LoginForm extends Component {
         );
     }
 }
-const styles = {
+const authStyles = {
     errorTextStyle: {
         color: '#E64A19',
         alignSelf: 'center',
@@ -65,4 +92,4 @@ const styles = {
         paddingBottom: 10
     }
 };
-export default LoginForm;
+export default AuthScreen;
