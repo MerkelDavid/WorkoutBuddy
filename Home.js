@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View,AppRegistry, TextInput,Button, Image, TouchableOpacity,Alert } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions} from 'react-navigation';
+import RootNavigator from './Router.js';
 import firebase from 'firebase';
 
 const StatusBar = require('./components/StatusBar');
 const ActionButton = require('./components/ActionButton');
-const styles =  require('./styles.js')
+const styles =  require('./styles.js');
 
 export class HomeScreen extends Component {
 
@@ -14,15 +15,19 @@ export class HomeScreen extends Component {
       this.state = {text: ''};
       this.buttonText = {text:''};
     }
-  
+
     _onPressButton() {
      Alert.alert('You did it bud.');
     }
   
-    logout(){
+    logout(navigate){
         firebase.auth().signOut();
-        Alert.alert('You did it bud.');
-        ()=>navigate('Profile');
+        this.props.navigation.dispatch(
+            NavigationActions.reset({
+                index:0,
+                actions: [NavigationActions.navigate({ routeName:"Login"})]
+            })
+        ) 
     }
 
     render() {
@@ -39,14 +44,14 @@ export class HomeScreen extends Component {
               </View>
               <View style={styles.TopRight}>
                 <Text>User Info:</Text>
-                <Text>{firebase.auth().uid}</Text>
+                <Text>{firebase.auth().currentUser.uid}</Text>
               </View>
             </View>
             <View style={{flex:5,flexDirection :'row'}}>
               <View style={styles.BottomLeft}>
               <Button
                   style ={styles.homeScreenButtons}
-                  onPress={this.logout}
+                  onPress={()=>this.logout(navigate)}
                   title="Log out"
                 />
               </View>
@@ -54,8 +59,8 @@ export class HomeScreen extends Component {
               <View style={styles.BottomRight} >
               <Button
                   style ={styles.homeScreenButtons}
-                  onPress={()=>navigate('Profile')}
-                  title="Profile screen"
+                  onPress={()=>navigate('Settings')}
+                  title="Settings"
                 />
               </View>  
             </View>          

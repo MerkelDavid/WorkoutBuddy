@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View,AppRegistry, TextInput,Button, Image, TouchableOpacity,Alert } from 'react-native';
-import RootNavigator from './router';
+import RootNavigator from './Router';
 import  firebase from 'firebase';
 import LoginForm from './components/LoginForm.js';
 import TitledInput from './components/TitledInput';
@@ -17,19 +17,22 @@ class AuthScreen extends Component {
     constructor(props) {
         super(props);
         this.state = { email: 'TestBoy@test.com', password: 'TestBoy123!',error: '', loading:false };
-        this.buttonText = {text:''};       
+        this.buttonText = {text:''};     
       }
 
-    componentWillMount(){
-      firebase.initializeApp({ // Initialize Firebase
-          apiKey: "AIzaSyBMDOJ2efVwI427-VGhG0VVe5-zoP2e_xo",
-          authDomain: "workout-buddy-2f3d1.firebaseapp.com",
-          databaseURL: "https://workout-buddy-2f3d1.firebaseio.com",
-          projectId: "workout-buddy-2f3d1",
-          storageBucket: "workout-buddy-2f3d1.appspot.com",
-          messagingSenderId: "923628828402"
-      });
-    }
+      componentWillMount(){
+        if (!firebase.apps.length) {
+          firebase.initializeApp({ // Initialize Firebase
+            apiKey: "AIzaSyBMDOJ2efVwI427-VGhG0VVe5-zoP2e_xo",
+            authDomain: "workout-buddy-2f3d1.firebaseapp.com",
+            databaseURL: "https://workout-buddy-2f3d1.firebaseio.com",
+            projectId: "workout-buddy-2f3d1",
+            storageBucket: "workout-buddy-2f3d1.appspot.com",
+            messagingSenderId: "923628828402"
+          });
+      }
+    
+      }
 
     onLoginPress() {
         this.setState({ error: '', loading: true });
@@ -41,7 +44,7 @@ class AuthScreen extends Component {
                 this.props.navigation.dispatch(
                     NavigationActions.reset({
                         index:0,
-                        actions: [NavigationActions.navigate({ routeName:"Home"})]
+                        actions: [NavigationActions.navigate({ routeName:'Home'},firebase.auth().GetCurrentUser)]
                     })
                 )
             })
@@ -53,7 +56,8 @@ class AuthScreen extends Component {
                         this.setState({ error: 'Authentication failed.', loading: false });
                     });
             });
-    }
+        }
+
     renderButtonOrSpinner() {
         if (this.state.loading) {
             return <LoadingSpinner />;    
@@ -92,4 +96,5 @@ const authStyles = {
         paddingBottom: 10
     }
 };
-export default AuthScreen;
+
+export default AuthScreen
