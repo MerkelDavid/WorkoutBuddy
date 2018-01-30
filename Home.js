@@ -51,8 +51,8 @@ export class HomeScreen extends Component {
               <View style={styles.BottomLeft}>
               <Button
                   style ={styles.homeScreenButtons}
-                  onPress={()=>this.logout(navigate)}
-                  title="Log out"
+                  onPress={()=>navigate('ScheduleMenu')}
+                  title="Schedule"
                 />
               </View>
   

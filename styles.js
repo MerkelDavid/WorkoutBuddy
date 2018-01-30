@@ -32,41 +32,49 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
 
-    navbar: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderBottomColor: '#eee',
-        borderColor: 'transparent',
-        borderWidth: 1,
-        justifyContent: 'center',
-        height: 44,
-        flexDirection: 'row'
-      },
-      navbarTitle: {
-        color: '#444',
-        fontSize: 16,
-        fontWeight: "500"
-      },
-      statusbar: {
-        backgroundColor: '#fff',
-        height: 22,
-      },
+    TextColor:{
+      color:'#292C44',
+      textAlign: 'center',
+      justifyContent:'center',
+      marginTop:30
+    },
+
       center: {
         textAlign: 'center',
       },
       actionText: {
-        color: '#fff',
+        color: '#f0f0f1',
         fontSize: 16,
         textAlign: 'center',
       },
       action: {
-        backgroundColor: constants.actionColor,
+        backgroundColor: '#4F80E1',
         borderColor: 'transparent',
         borderWidth: 1,
         paddingLeft: 16,
         paddingTop: 14,
         paddingBottom: 16,
       },
+      ScheduleMenuOption: {
+        flex:5,
+        flexDirection :'row',
+      },
+      EditScheduleTable:{
+        flexDirection :'row',
+      },
+      padding:{
+        marginTop:25,
+      },
+      TableBoarder:{
+        borderWidth:4,
+        borderColor:'#292C44',
+        backgroundColor:'#F0F0F1',
+        borderRadius:20,
+        overflow:'hidden',
+        margin:10,
+        paddingBottom:30,
+        paddingRight:20
+      }
   });
   
 module.exports = styles
