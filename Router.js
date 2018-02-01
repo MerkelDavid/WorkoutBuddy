@@ -5,7 +5,7 @@ import ProfileScreen from "./Profile.js";
 import HomeScreen from "./Home.js";
 import SettingsScreen from "./Settings.js";
 import EditScheduleScreen from "./EditSchedule.js";
-
+import WorkoutScreen from "./Workout.js"
 
 const RootNavigator = StackNavigator({
     Login: {screen: AuthScreen},
@@ -13,6 +13,7 @@ const RootNavigator = StackNavigator({
     Profile: {screen: ProfileScreen },
     Settings: {screen: SettingsScreen},
     EditSchedule: {screen: EditScheduleScreen},
+    Workout: {screen: WorkoutScreen},
   });
   
   export default RootNavigator;

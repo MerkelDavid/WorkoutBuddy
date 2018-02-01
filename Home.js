@@ -38,7 +38,7 @@ export class HomeScreen extends Component {
               <View style={styles.TopLeft}>
                 <Button
                   style ={styles.homeScreenButtons}
-                  onPress={this._onPressButton}
+                  onPress={()=>navigate('Workout')}
                   title="Workout"
                 />
                 <Image source={require('./assets/transparent_muscle.png')} style ={styles.homeScreenImages}/>
