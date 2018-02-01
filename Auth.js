@@ -16,8 +16,17 @@ class AuthScreen extends Component {
   
     constructor(props) {
         super(props);
-        this.state = { email: 'TestBoy@test.com', password: 'TestBoy123!',error: '', loading:false };
-        this.buttonText = {text:''};     
+        this.state = { email: 'TestBoy2@test.com', password: 'TestBoy123!',error: '', loading:false };
+        this.buttonText = {text:''}; 
+        this.Days =[
+            { value: 'Monday '},
+            { value: 'Tuesday'},
+            { value: 'Wednesday'},
+            { value: 'Thursday'},
+            { value: 'Friday'},
+            { value: 'Saturday'},
+            { value: 'Sunday'},      
+          ]    
       }
 
       componentWillMount(){
@@ -51,7 +60,22 @@ class AuthScreen extends Component {
             .catch(() => {
                 //Login was not successful, let's create a new account
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => { this.setState({ error: '', loading: false }); })
+                    .then(() => { this.setState({ error: '', loading: false });
+                                  /*firebase.database().ref("Schedules").child(firebase.auth().currentUser.uid);
+                                  for(let i=0;i<7;i++){
+                                    firebase.database().ref("schedule/"+firebase.auth().currentUser.uid).child(this.Days[i]);
+                                    var currentItem = firebase.database().ref("Schedules/"+firebase.auth().currentUser.uid+"/"+this.Days[i].value);
+                                    currentItem.child("workoutType");
+                                    currentItem.child("workoutTime");  
+                                    currentItem.set({workoutType:"None",workoutTime:"None"});                                  
+                                  }*/
+                                  this.props.navigation.dispatch(
+                                    NavigationActions.reset({
+                                        index:0,
+                                        actions: [NavigationActions.navigate({ routeName:'Home'},firebase.auth().GetCurrentUser)]
+                                    })
+                                )
+                                })
                     .catch(() => {
                         this.setState({ error: 'Authentication failed.', loading: false });
                     });
