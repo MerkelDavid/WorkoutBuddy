@@ -39,6 +39,12 @@ const styles = StyleSheet.create({
       marginTop:30
     },
 
+    homeScreenImages:{
+      width:undefined,
+      height:undefined,
+      flex:1,
+      zIndex:10
+    },
       center: {
         textAlign: 'center',
       },

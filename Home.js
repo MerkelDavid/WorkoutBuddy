@@ -39,21 +39,27 @@ export class HomeScreen extends Component {
                 <Button
                   style ={styles.homeScreenButtons}
                   onPress={this._onPressButton}
-                  title="Press Me"
+                  title="Workout"
                 />
+                <Image source={require('./assets/transparent_muscle.png')} style ={styles.homeScreenImages}/>
               </View>
               <View style={styles.TopRight}>
-                <Text>User Info:</Text>
-                <Text>{firebase.auth().currentUser.uid}</Text>
+              <Button
+                  style ={styles.homeScreenButtons}
+                  onPress={this._onPressButton}
+                  title="Progress"
+                />
+                <Image source={require('./assets/transparent_clipboard.png')} style ={styles.homeScreenImages}/>
               </View>
             </View>
             <View style={{flex:5,flexDirection :'row'}}>
               <View style={styles.BottomLeft}>
               <Button
                   style ={styles.homeScreenButtons}
-                  onPress={()=>navigate('ScheduleMenu')}
+                  onPress={()=>navigate('EditSchedule')}
                   title="Schedule"
                 />
+                <Image source={require('./assets/transparent_scale.png')} style ={styles.homeScreenImages}/>
               </View>
   
               <View style={styles.BottomRight} >
@@ -62,6 +68,7 @@ export class HomeScreen extends Component {
                   onPress={()=>navigate('Settings')}
                   title="Settings"
                 />
+                <Image source={require('./assets/settings.png')} style ={styles.homeScreenImages}/>
               </View>  
             </View>          
           </View>

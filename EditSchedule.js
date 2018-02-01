@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import {Alert} from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker'
-import { StyleSheet, Text, View,Picker,AppRegistry, ScrollView, TextInput,Button, Image, TouchableOpacity,Alert } from 'react-native';
+import { StyleSheet, Text, View,Picker,AppRegistry, ScrollView, TextInput,Button, Image, TouchableOpacity } from 'react-native';
 import { StackNavigator, NavigationActions} from 'react-navigation';
 import RootNavigator from './Router.js';
 import firebase from 'firebase';
@@ -31,10 +32,39 @@ export default class EditScheduleScreen extends Component {
 
   }
 
+  componentDidMount(){
+    //this.listenForItems();
+  }
 
- updateNumDays = (numDays) => {
-    this.setState({numDays:numDays});
- }
+  listenForItems() {
+    firebase.database().ref("Schedules/"+firebase.auth().currentUser.uid).on('value',(snap) =>{
+        var items = {Monday:{Time:'12:00',workoutType:'Chest'},Tuesday:{Time:'12:00',workoutType:'Chest'},
+        Wednesday: {Time:'12:00',workoutType:'Chest'},Thursday:{Time:'12:00',workoutType:'Chest'},
+        Friday:{Time:'12:00',workoutType:'Chest'},Saturday:{Time:'12:00',workoutType:'Chest'},
+        Sunday:{Time:'12:00',workoutType:'Chest'}};
+
+        snap.forEach((child)=>{
+          items.push({
+          Monday: child.val().Monday,
+          Tuesday: child.val().Tuesday,
+          Wednesday: child.val().Wednesday,
+          Thursday: child.val().Thursday,
+          Friday: child.val().Friday,
+          Saturday: child.val().Saturday,
+          Sunday: child.val().Sunday
+          });
+        });
+
+        this.setState({
+           state: this.state.cloneWithRows(items)
+        });
+    });
+  }
+
+ // onChangeText={(text) => this.setState({Monday:{... this.state.Monday, workoutType: text}})}
+ //updateNumDays = (numDays) => {
+ //   this.setState({numDays:numDays});
+ //}
 
  updateSchedule(){
 
@@ -73,6 +103,8 @@ export default class EditScheduleScreen extends Component {
       "workoutType":this.state.Sunday.workoutType,
       "workoutTime":this.state.Sunday.Time
     });
+
+    Alert.alert("Your Schedule Has been updated");
 
     this.props.navigation.dispatch(
       NavigationActions.reset({
