@@ -5,6 +5,7 @@ import RootNavigator from './Router.js';
 import firebase from 'firebase';
 
 const styles =  require('./styles.js');
+const ActionButton = require('./components/ActionButton');
 
 export class SettingsScreen extends Component {
 
@@ -22,9 +23,8 @@ export class SettingsScreen extends Component {
         const  {navigate}  = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Button
-                    style ={styles.homeScreenButtons}
-                    onPress={()=>this.logout(navigate)}
+                <ActionButton
+                    onPress= {()=>this.logout(navigate)}
                     title="Log out"
                 />
             </View>

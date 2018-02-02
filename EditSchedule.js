@@ -33,7 +33,6 @@ export default class EditScheduleScreen extends Component {
   }
 
   componentDidMount(){
-    //this.listenForItems();
   }
 
   listenForItems() {

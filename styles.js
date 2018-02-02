@@ -80,7 +80,48 @@ const styles = StyleSheet.create({
         margin:10,
         paddingBottom:30,
         paddingRight:20
-      }
+      },
+      workoutContainer:{
+        padding:30,
+        flexDirection:'row',
+        backgroundColor: '#292C44',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      workoutBackground:{
+        alignItems: 'stretch',
+        borderWidth:4,
+        borderColor:'#292C44',
+        backgroundColor:'#F0F0F1',
+        borderRadius:20,
+        overflow:'hidden',
+        margin:10,
+        paddingBottom:30,
+        paddingRight:20,
+      },
+
+      messageBox:{
+        borderColor:'#292C44',
+        backgroundColor:'#F0F0F1',
+        width:300,
+        paddingTop:10,
+        paddingBottom:20,
+        paddingLeft:20,
+        paddingRight:20, 
+        borderRadius:10
+    },
+    messageBoxTitleText:{
+        color: '#292C44',
+        fontWeight:'bold',
+        textAlign:'center',
+        fontSize:20,
+        marginBottom:10
+    },
+    messageBoxBodyText:{
+        textAlign:'center',
+        color: '#292C44',
+        fontSize:16
+    }
   });
   
 module.exports = styles

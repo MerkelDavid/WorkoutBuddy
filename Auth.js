@@ -91,7 +91,7 @@ class AuthScreen extends Component {
 
     render() {
         return (          
-            <View style="authStyles.loginForm">
+            <View style={authStyles.loginForm}>
                     <TitledInput 
                         label='Email Address'
                         placeholder='you@domain.com'
@@ -120,8 +120,7 @@ const authStyles = {
             borderRadius:20,
             overflow:'hidden',
             margin:10,
-            paddingBottom:30,
-            paddingRight:20
+            padding:30
     },
     errorTextStyle: {
         color: '#E64A19',
