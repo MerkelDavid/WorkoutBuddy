@@ -90,24 +90,26 @@ class AuthScreen extends Component {
     }
 
     render() {
-        return (          
+        return (
+            <View style={{backgroundColor:'#96FFFB',flex:1,justifyContent:'center'}}>        
             <View style={authStyles.loginForm}>
                     <TitledInput 
                         label='Email Address'
-                        placeholder='you@domain.com'
+                        placeholder= {this.state.email}
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })}
                     />
                     <TitledInput 
                         label='Password'
                         autoCorrect={false}
-                        placeholder='*******'
+                        placeholder={this.state.email}
                         secureTextEntry
                         value={this.state.password}
                         onChangeText={password => this.setState({ password })}
                     />
                     <Text style={styles.errorTextStyle}>{this.state.error}</Text>
                     {this.renderButtonOrSpinner()}
+            </View>
             </View>
         );
     }
@@ -119,7 +121,8 @@ const authStyles = {
             backgroundColor:'#F0F0F1',
             borderRadius:20,
             overflow:'hidden',
-            margin:10,
+            marginLeft:10,
+            marginRight:10,
             padding:30
     },
     errorTextStyle: {

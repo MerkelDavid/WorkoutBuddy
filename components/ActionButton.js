@@ -11,7 +11,7 @@ class ActionButton extends Component {
     return (
       <View style={styles.action}>
         <TouchableHighlight
-          underlayColor={constants.actionColor}
+          underlayColor={'#4F80E1'}
           onPress={this.props.onPress}>
           <Text style={styles.actionText}>{this.props.title}</Text>
         </TouchableHighlight>

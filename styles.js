@@ -19,11 +19,19 @@ const styles = StyleSheet.create({
     BottomLeft:{flex:2, backgroundColor: '#F0F0F1',borderStyle: "solid", borderWidth:1,  marginBottom:10,marginLeft:10,
       borderRightColor:'#4F80E1',borderTopColor:'#4F80E1',borderLeftColor:'#F0F0F1',borderBottomColor:'#F0F0F1'},
   
-    homeScreenImages:{ height: 75 ,width: 75, zIndex:3, margin:'auto' },
+    homeScreenImages:{flex:2, height: 75 ,width: 75, zIndex:3, margin:'auto' },
   
     homeScreenButtons:{margin:'auto'},
   
-  
+    HomePageTextStyle:{
+      color:'#292C44',
+      textAlign: 'center',
+      justifyContent:'center',
+      fontSize:24,
+      paddingTop: 10,
+      textDecorationLine: 'underline',
+    },
+
     container: {
       flex: 1,
       flexDirection:'column',
@@ -67,6 +75,7 @@ const styles = StyleSheet.create({
       },
       EditScheduleTable:{
         flexDirection :'row',
+        
       },
       padding:{
         marginTop:25,
@@ -100,6 +109,10 @@ const styles = StyleSheet.create({
         paddingRight:20,
       },
 
+      workoutScreenPanels:{
+        flex:3,       
+      },
+      
       messageBox:{
         borderColor:'#292C44',
         backgroundColor:'#F0F0F1',
@@ -121,7 +134,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         color: '#292C44',
         fontSize:16
-    }
+    },
   });
   
 module.exports = styles

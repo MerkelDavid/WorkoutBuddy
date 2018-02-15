@@ -3,6 +3,7 @@ import { StyleSheet, Text,ListView, View,AppRegistry,TouchableHighlight, TextInp
 import { StackNavigator, NavigationActions} from 'react-navigation';
 import RootNavigator from './Router.js';
 import firebase from 'firebase';
+import TitledInput from './components/TitledInput';
 
 const styles =  require('./styles.js');
 const ActionButton = require('./components/ActionButton');
@@ -11,7 +12,6 @@ export class WorkoutScreen extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {isReady:false,workout: []};
 
       //getting current date
       let today = new Date();
@@ -48,52 +48,114 @@ export class WorkoutScreen extends Component {
       //getting workout type
       let workoutType = '';
       firebase.database().ref("Schedules/"+firebase.auth().currentUser.uid+"/"+this.Dotw+"/workoutType").on('value',function(snapshot){
-          console.log(snapshot.val());
-          this.workoutType = snapshot.val();
+          workoutType = snapshot.val();
       });
 
+      this.state = {isReady:false,
+        workout: [],
+        workoutType: workoutType,
+        currentSet: 1,
+        UserReps: 0,
+        };
     }
 
     componentWillMount(){
 
-              //getting workout
-      var currentWorkout = []
-     
-      firebase.database().ref('Workouts/'+this.workoutType).once('value',snapshot =>{
-      snapshot.forEach(function(snapshot){
-          let result= snapshot.val();
-          console.log(snapshot);
-          result["key"] = data.key;
-          currentWorkout.push(result);
-      })
-      })
-          
-      this.setState({workout: currentWorkout})
+      //getting workout
+        var currentWorkout = [];
 
-      console.log(this.state.workout.length);
+        let ref = firebase.database().ref('Workouts/'+this.state.workoutType);
 
-      this.state.workout.map(function(x){
-        console.log(x.name);
-      })
+        firebase.database().ref('Workouts/'+this.state.workoutType).once('value').then( snapshot =>{
+            snapshot.forEach((child) =>{
+                child.forEach((gchild) =>{   
+                    var exercise = [];
 
+                    gchild.forEach((ggchild)=>{           
+                        var item = ggchild.val();
+                        exercise.push(item);
+                    })
+
+                    currentWorkout.push(exercise);
+                })   
+            })
+            this.setState({workout: currentWorkout});
+            console.log(this.state.workout[0][0]);
+        })
+
+        setTimeout(() => {
+            this.setState({currentDescription: this.state.workout[0][0],
+                currentName: this.state.workout[0][1],
+                currentReps: this.state.workout[0][2],
+                currentSets:  this.state.workout[0][3]
+            })
+        }, 5000);
+
+    }
+
+    getNextMove(){
+        if(this.state.currentSet=this.state.currentSets){
+            this.setState({})
+        }
     }
 
     beginingScreen(){
         if(!this.state.isReady){
             return(
                 <View>
-                    <Text style = {styles.messageBoxTitleText}>Are you Ready?</Text>
-                    <Text style={styles.messageBoxBodyText}>Press to begin your workout.</Text>
+                    <View style={styles.TableBoarder}>
+                        <View style={styles.EditScheduleTable}>
+                            <Text style = {styles.messageBoxTitleText}>Are you Ready?</Text>
+                        </View>
+                        <View style={styles.EditScheduleTable}>
+                        <Button
+                            style ={styles.homeScreenButtons}
+                            onPress={()=>this.setState({isReady:true})}
+                            title="Press to begin your workout"
+                        />
+                        </View>
+                    </View>
                 </View>
             )
         }
         else{
             return(
                 <View>
-                    <Text style = {styles.messageBoxTitleText}>Wow you did it! Good job!</Text>
+                <View style={styles.TableBoarder}>
+                    <View style={styles.EditScheduleTable}>
+                        <Text style = {styles.HomePageTextStyle}>{this.state.currentName}</Text>
+                    </View>
+                    <View style={styles.EditScheduleTable}>
+                        <Text style = {{fontWeight:'bold'}}>Set:</Text>
+                        <Text >{this.state.currentSet}/{this.state.currentSets}</Text>
+                    </View>
+                    <View style={styles.EditScheduleTable}>
+                        <Text style = {{fontWeight:'bold'}}>Instructions:</Text>
+                    </View>
+                    <View style={styles.EditScheduleTable}>
+                        <Text>{this.state.currentDescription}</Text>
+                    </View>
+                    <View style={styles.EditScheduleTable}>
+                        <TitledInput 
+                            label='Repititions'
+                            placeholder= {this.state.currentReps}
+                            value={this.state.UserReps}
+                            onChangeText={UserReps => this.setState({UserReps})}
+                        />                    
+                    </View>
+               </View>
+               <ActionButton
+                    onPress= {()=>this.getNextMove()}
+                    title="Confirm Information"
+                 />
                 </View>
             )
         }
+
+    }
+
+    getNextMove(){
+
 
     }
 
@@ -101,17 +163,9 @@ export class WorkoutScreen extends Component {
     render() {
         const  {navigate}  = this.props.navigation;
         return (
-            <View Style = {styles.workoutContainer}>
-            <View style= {{flex:1 ,backgroundColor:'#96FFFB'}}>
+            <View style={{backgroundColor:'#96FFFB',flex:1}}>
                 <View style={styles.padding}></View>
-                <TouchableHighlight
-                onPress={() => { this.setState({isReady : 'true' });}}>
-                    <View style = {styles.messageBox}>
                         {this.beginingScreen()}
-                    </View>
-                </TouchableHighlight>
-
-            </View>
             </View>
         )
     }
